@@ -1,0 +1,30 @@
+<!-- display page. It displays the entries of elements of the recipe model.-->
+
+{% extends "layout.html" %}
+{% block content %}
+    <h2>Apartment entries</h2>
+        {% for entry in entries %}
+        <table>
+            <thead>
+            <th> Apartment Name </th>
+            <th> Beds </th>
+            <th> Price </th>
+            <th> Address </th>
+            <th> Phone</th>
+            <th> ZipCode </th>
+            </thead>
+            <tbody class=entry>
+            <tr>
+            <td>{{ entry.title}}</td>
+            <td>{{ entry.beds}} </td>
+            <td>{{ entry.price}} </td>
+            <td>{{ entry.address}}</td>
+            <td>{{ entry.phone}}</td>
+            <td>{{ entry.zipcode}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        {% endfor %}
+
+{% endblock %}
