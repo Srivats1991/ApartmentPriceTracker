@@ -19,4 +19,4 @@ app.add_url_rule('/display/?city=<city>&state=<state>',view_func=DisplayForm.as_
 
 #using run() method of flask, launch the web app on all IP addresses of the host using port 8000 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8000)
+    app.run(host='0.0.0.0',port=8000)
