@@ -8,18 +8,19 @@ DB_FILE = 'entries.db'
 
 class model(Model):
     def __init__(self):
-    	"""
-    	Makes sure the connection to database is completed.
-    	"""
-    	connection = sqlite3.connect(DB_FILE)
-    	cursor = connection.cursor()
-    	try:
-    		cursor.execute("select count(rowid) from apartments")
-    	except sqlite3.OperationalError:
-    		cursor.execute("create table apartments (Address, Phone no, Beds, Price Range , Title, zipcode)")
-    	cursor.close()
+        """
+        Makes sure the connection to database is completed.
+        """
+        connection = sqlite3.connect(DB_FILE)
+        cursor = connection.cursor()
+        try:
+            cursor.execute("drop table apartments")
+            cursor.execute("create table apartments (city, state, address, phone, beds, price , title)")
+        except sqlite3.OperationalError:
+            cursor.execute("create table apartments (city, state, address, phone, beds, price , title)")
+        cursor.close()
 
-    def select(self):
+    def select(self,city,state):
         """
         Fetches all rows from the database
         Each row contains: title,author,ingredients,timetaken,skillset,description
@@ -27,10 +28,10 @@ class model(Model):
         """
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM apartments")
+        cursor.execute("SELECT address, phone, beds, price, title FROM apartments where city = '{0}' and state = '{1}' ;".format(city, state))
         return cursor.fetchall()
 
-    def insert(self, address, phone, beds, price, title, zipcode):
+    def insert(self, city, state, address, phone, beds, price, title):
         """
         Inserts entry into database
         :param Address: String
@@ -42,10 +43,10 @@ class model(Model):
         :return: True
         :raises: Database errors on connection and insertion
         """
-        params = {'address':address, 'phone':phone, 'beds':beds, 'price':price, 'title':title, 'zipcode':zipcode}
+        params = {'city':city, 'state':state, 'address':address, 'phone':phone, 'beds':beds, 'price':price, 'title':title}
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
-        cursor.execute("insert into apartments (address, phone, beds, price, title, zipcode) VALUES (:address, :phone, :beds, :price, :title, :zipcode)", params)
+        cursor.execute("insert into apartments (city, state, address, phone, beds, price, title) VALUES (:city, :state, :address, :phone, :beds, :price, :title)", params)
 
         connection.commit()
         cursor.close()

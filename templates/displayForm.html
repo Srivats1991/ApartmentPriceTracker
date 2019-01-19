@@ -11,7 +11,6 @@
             <th> Price </th>
             <th> Address </th>
             <th> Phone</th>
-            <th> ZipCode </th>
             </thead>
         {% for entry in entries %}
             <tbody class=entry>
@@ -21,7 +20,6 @@
             <td>{{ entry.price}} </td>
             <td>{{ entry.address}}</td>
             <td>{{ entry.phone}}</td>
-            <td>{{ entry.zipcode}}</td>
             </tr>
             </tbody>
         {% endfor %}

@@ -21,15 +21,13 @@ class InsertForm(MethodView):
         Redirects to introduction form when completed.
         """
         model = apartment.get_model()
+        city = request.form['city']
+        state = request.form['state']
 
-
-        model.insert(request.form['address'], request.form['phone'], request.form['beds'],request.form['price'],request.form['title'],request.form['zipcode'])
-        return redirect(url_for('introductionForm'))
-
-    def build_db(self):
-        base_url = "https://www.apartments.com/austin-tx/1-bedrooms-1-bathrooms/"
+        base_url = "https://www.apartments.com/{0}-{1}/1-bedrooms-1-bathrooms/".format(city,state)
+        print(base_url)
         # base_url = 'https://www.apartments.com/portland-or/1-bedrooms-1-bathrooms/'
-        city = base_url[24:-27].replace('/','-')
+       # city = base_url[24:-27].replace('/','-')
         # To get the html contents
         headers = requests.utils.default_headers()
         headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -72,19 +70,27 @@ class InsertForm(MethodView):
               # To store the information to a dictionary
                 web_content_dict = {}
                 try:
-                    web_content_dict["Title"]=item_header.find("a",{"class":"placardTitle js-placardTitle"}).text
+                    web_content_dict["title"]=item_header.find("a",{"class":"placardTitle js-placardTitle"}).text
                 except:
                     print("it's dead jim {0}".format(item_header))
-                web_content_dict["Address"] = item_header.find("div",{"class":"location"}).text
-                web_content_dict["Price"] = item_content.find("span",{"class":"altRentDisplay"}).text
-                web_content_dict["Beds"] = item_content.find("span",{"class":"unitLabel"}).text
-                web_content_dict["Phone"] = item_content.find("div",{"class":"phone"}).find("span").text
-                print("This is the entry being added {0}".format(web_content_dict))
+                    web_content_dict["title"] = ''
+                    pass
+                web_content_dict["address"] = item_header.find("div",{"class":"location"}).text
+                web_content_dict["price"] = item_content.find("span",{"class":"altRentDisplay"}).text
+                web_content_dict["beds"] = item_content.find("span",{"class":"unitLabel"}).text
+                web_content_dict["phone"] = item_content.find("div",{"class":"phone"}).find("span").text
+                web_content_dict["city"] = city
+                web_content_dict["state"] = state
+                print("This is the entry being inserted {0}".format(web_content_dict))
                 # To store the dictionary to into a list
-                web_content_list.append(web_content_dict)
-
+              #  web_content_list.append(web_content_dict)
+                model.insert(web_content_dict['city'], web_content_dict['state'], web_content_dict['address'], web_content_dict['phone'], web_content_dict['beds'], web_content_dict['price'], web_content_dict['title'])
         # To make a dataframe with the list
-        df = pandas.DataFrame(web_content_list)
-
+      #  df = pandas.DataFrame(web_content_list)
+      #  print(elements for elements in web_content_list)
         # To write the dataframe to a csv file
-        df.to_csv("Output_{0}.csv".format(city))
+      #  df.to_csv("Output_{0}.csv".format(city))
+
+       
+        return redirect(url_for('displayForm',city=city, state=state))
+        
