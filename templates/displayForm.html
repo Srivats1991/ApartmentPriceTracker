@@ -3,8 +3,8 @@
 {% extends "layout.html" %}
 {% block content %}
     <h2>Apartment entries</h2>
-        {% for entry in entries %}
-        <table>
+        
+        <table width="500">
             <thead>
             <th> Apartment Name </th>
             <th> Beds </th>
@@ -13,6 +13,7 @@
             <th> Phone</th>
             <th> ZipCode </th>
             </thead>
+        {% for entry in entries %}
             <tbody class=entry>
             <tr>
             <td>{{ entry.title}}</td>
@@ -23,8 +24,7 @@
             <td>{{ entry.zipcode}}</td>
             </tr>
             </tbody>
-        </table>
-
         {% endfor %}
-
+        </table>
+       
 {% endblock %}
