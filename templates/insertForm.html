@@ -2,10 +2,10 @@
 
 {% extends "layout.html" %}
 {% block content %}
-    <h2>Apartment entries</h2>
+    <h2>Find Apartments near you...</h2>
     <form action="{{ url_for('insertForm') }}" method=post>
-   	<p class="heading">State: <input type=text name=state required=required>
-	<p class="heading">City: <input type=text name=city required=required>
+   	<p class="heading">State: <input type=text name=state required=required placeholder="tx">
+	<p class="heading">City: <input type=text name=city required=required placeholder="austin">
 	<p><input type=submit value=Search></p>
     </form>
 {% endblock %}
