@@ -14,9 +14,10 @@ class model(Model):
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
         try:
-            cursor.execute("drop table apartments")
-            cursor.execute("create table apartments (city, state, address, phone, beds, price , title)")
+            cursor.execute("select * from apartments")
+            print("My dear...Table already exists...")
         except sqlite3.OperationalError:
+            print("Creating a new table apartments that doesn't exist....")
             cursor.execute("create table apartments (city, state, address, phone, beds, price , title)")
         cursor.close()
 

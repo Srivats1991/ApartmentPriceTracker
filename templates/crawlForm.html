@@ -1,12 +1,9 @@
-<!-- insert page. It allows the user to enter recipes to the database.-->
-
 {% extends "layout.html" %}
 {% block content %}
-    <h2>Find Apartments near you...</h2>
-    <form action="{{ url_for('insertForm')}}"method=post>
+    <h2>Pre crawl price rate of apartments for a city you like...</h2>
+    <form action="{{ url_for('crawlForm') }}" method=post>
    	<p class="heading">State: <input type=text name=state required=required placeholder="tx">
 	<p class="heading">City: <input type=text name=city required=required placeholder="austin">
 	<p><input type=submit value=Search></p>
     </form>
 {% endblock %}
-
